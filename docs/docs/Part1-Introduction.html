@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Part1 - Introduction</title>
+
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">NCSU R workshop 2022</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">Before the workshop</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Workshop
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Part1-Introduction.html">Part 1: Introduction to R</a>
+    </li>
+    <li>
+      <a href="Part2-DataManipulation.html">Part 2: Data manipulation</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Part1 - Introduction</h1>
+
+</div>
+
+
+<p>Data analysis is a process of inspecting, cleaning, transforming, and
+modelling data with the goal of discovering useful information,
+informing conclusions, and supporting decision-making [1].</p>
+<p>Data analysis can be break down into a few steps:</p>
+<ol style="list-style-type: decimal">
+<li>Create a hypothesis about some a given process (biological,
+economic, chemical, etc.)</li>
+<li>Collect raw data to help us test the identified hypothesis.</li>
+<li>Clean data. This often involves fixing or removing incorrect,
+corrupted, incorrectly formatted, duplicate, or incomplete data within a
+data set. (Obs. the degree of cleaning depends on several factors)</li>
+<li>Perform preliminary analysis. This allow us to explore at trends,
+outliers, etc.</li>
+<li>Analyze data and perform model diagnostics. By manipulating the data
+using various data analysis techniques and tools, you can begin to find
+trends, correlations, outliers, and variations that tell a story.
+Diagnostics help you determine if the assumptions of your model are
+reasonable.</li>
+<li>Interpret the results of your analysis to see how well the data
+answered your original hypothesis.</li>
+<li>Communicate your findings.</li>
+</ol>
+<div class="figure">
+<img
+src="https://d33wubrfki0l68.cloudfront.net/571b056757d68e6df81a3e3853f54d3c76ad6efc/32d37/diagrams/data-science.png"
+alt="" />
+<p class="caption">Image reference:
+www.r4ds.had.co.nz/introduction.html</p>
+</div>
+<p>
+ 
+</p>
+<div id="whats-r" class="section level2">
+<h2>What’s R?</h2>
+<p>R is a popular programming language used for statistical computing
+and graphical presentation. Its most common use is to analyze and
+visualize data.</p>
+<p><img
+src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Rlogo.png"
+style="width:25.0%" /></p>
+<p>
+ 
+</p>
+</div>
+<div id="whats-rstudio" class="section level2">
+<h2>What’s RStudio?</h2>
+<p>An integrated development environment for R, with a console,
+syntax-highlighting editor that supports direct code execution, and
+tools for plotting, history, debugging and workspace management.</p>
+<p><img
+src="https://www.rstudio.com/wp-content/uploads/2018/10/RStudio-Logo.png"
+style="width:50.0%" /></p>
+<p>
+ 
+</p>
+</div>
+<div id="whats-the-difference-between-r-and-rstudio"
+class="section level2">
+<h2>What’s the difference between R and RStudio?</h2>
+<p>R and RStudio are not two different versions of the same thing. One
+can’t be substituted for the other.</p>
+<p>But they work together. R is a programming language for statistical
+calculation. RStudio is an Integrated Development Environment (IDE) that
+helps you develop programs in R.</p>
+<p>In this workshop, we will be working mostly with RStudio.</p>
+<p>
+ 
+</p>
+</div>
+<div id="why-not-excel" class="section level2">
+<h2>Why not Excel?</h2>
+<p>Here is a reason why….</p>
+<div class="figure">
+<img
+src="https://cdn.educba.com/academy/wp-content/uploads/2018/12/Errors.png"
+alt="" />
+<p class="caption">Source: <a
+href="https://www.educba.com/errors-in-excel/"
+class="uri">https://www.educba.com/errors-in-excel/</a></p>
+</div>
+<p>
+ 
+</p>
+</div>
+<div id="why-use-r-or-rstudio" class="section level2">
+<h2>Why use R (or RStudio)?</h2>
+<ul>
+<li>It is a great resource for data analysis, data visualization, data
+science and machine learning</li>
+<li>It provides many statistical techniques (such as statistical tests,
+classification, clustering and data reduction)</li>
+<li>It is easy to draw graphs in R, like pie charts, histograms, box
+plot, scatter plot, etc++</li>
+<li>It works on different platforms (Windows, Mac, Linux)</li>
+<li>It is open-source and free</li>
+<li>It has a large community support</li>
+<li>It has many packages (libraries of functions) that can be used to
+solve different problems</li>
+</ul>
+<p>
+ 
+</p>
+</div>
+<div id="rstudio" class="section level1">
+<h1>RStudio</h1>
+<p>When we open RStudio for the first time, we’ll probably see a layout
+like this:</p>
+<div class="figure">
+<img
+src="https://dq-blog-files.s3.amazonaws.com/rstudio_tutorial/rstudio_layout_new.png"
+alt="" />
+<p class="caption">RStudio view. Image reference:
+www.dataquest.io/blog/tutorial-getting-started-with-r-and-rstudio/</p>
+</div>
+<p>
+ 
+</p>
+<div id="console" class="section level2">
+<h2>Console</h2>
+<p>Let’s start off by introducing some features of the Console. The
+Console is a tab in RStudio where we can run R code.</p>
+<p>Notice that the window pane where the console is located contains
+three tabs: Console, Terminal and Jobs (this may vary depending on the
+version of RStudio in use). We’ll focus on the Console for now.</p>
+<p>When we open RStudio, the console contains information about the
+version of R we’re working with. Scroll down, and try typing a few
+expressions like this one. Press the enter key to see the result.</p>
+<div class="figure">
+<img
+src="https://dq-blog-files.s3.amazonaws.com/rstudio_tutorial/console_example.png"
+alt="" />
+<p class="caption">Console. Image reference:
+www.dataquest.io/blog/tutorial-getting-started-with-r-and-rstudio/</p>
+</div>
+<p>Please, go ahead and type this into your Console:</p>
+<pre><code>1 + 2
+
+result &lt;- 1 + 2
+
+result</code></pre>
+<p>We’ll see any objects we created, such as result, under values in the
+Environment tab. Notice that the value, 3, stored in the variable is
+displayed.</p>
+<p>Sometimes, having too many named objects in the global environment
+creates confusion. Maybe we’d like to remove all or some of the objects.
+To remove all objects, click the broom icon at the top of the
+window:</p>
+<p>
+ 
+</p>
+</div>
+<div id="the-global-environment" class="section level2">
+<h2>The Global Environment</h2>
+<p>We can think of the global environment as our workspace. During a
+programming session in R, any variables we define, or data we import and
+save in a dataframe, are stored in our global environment. In RStudio,
+we can see the objects in our global environment in the Environment tab
+at the top right of the interface:</p>
+<div class="figure">
+<img
+src="https://dq-blog-files.s3.amazonaws.com/rstudio_tutorial/global_environment.png"
+alt="" />
+<p class="caption">Global environment. Image reference:
+www.dataquest.io/blog/tutorial-getting-started-with-r-and-rstudio/</p>
+</div>
+<p>We’ll see any objects we created, such as result, under values in the
+Environment tab. Notice that the value, 3, stored in the variable is
+displayed.</p>
+<p>Sometimes, having too many named objects in the global environment
+creates confusion. Maybe we’d like to remove all or some of the objects.
+To remove all objects, click the broom icon at the top of the
+window.</p>
+<div class="figure">
+<img
+src="https://dq-blog-files.s3.amazonaws.com/rstudio_tutorial/broom.png"
+alt="" />
+<p class="caption">Image reference:
+www.dataquest.io/blog/tutorial-getting-started-with-r-and-rstudio/</p>
+</div>
+</div>
+</div>
+<div id="hands-on-with-r" class="section level1">
+<h1>Hands-on with R</h1>
+<p>In this section we will investigate the following questions: [[ How
+does R understand data? ]]</p>
+<ol style="list-style-type: decimal">
+<li>How to use this script and R</li>
+<li>Creating objects and using logicals</li>
+<li>Sequences and vectors (1-D)</li>
+<li>Data frames, basic data manipulation (subsetting, renaming,
+joining), and finding help for using functions</li>
+</ol>
+<div id="step-1-how-to-use-this-r-script" class="section level2">
+<h2>Step 1: How to use this R script</h2>
+<p>Copy and paste the following into the console and run it:</p>
+<pre><code>print(&quot;the instructors&#39; names are Vinny and Danielle&quot;) </code></pre>
+<p>Run a single line of your script in the console by placing your
+cursor on the line you want to submit and use your cursor to press the
+“Run” button at the top right. You can also use the shortcut key strokes
+cmd+enter (mac) or ctrl+enter (PC) to run a single line at a time.</p>
+<p>The two other most important keyboard shortcuts that you’ll want to
+use are the <em>Tab</em> key to auto-complete your typing at the command
+line and ctrl+up arrow or cmd+up arrow to access the most recently typed
+commands.</p>
+<p>You can also select only part of a line to have it run on the
+console.</p>
+<p>Let’s do an exercise:</p>
+<p>Exercise 1: Use the function <code>print</code> to print the
+sentence.</p>
+<pre><code>a = c(&quot;my name is ____&quot;)
+
+print(a)</code></pre>
+<p>It’s important to realize that when you run code as we’ve done above,
+the result of the code (or value) is only displayed in the console</p>
+<p>You always can see what the function is via this:</p>
+<pre><code>?print</code></pre>
+<p>R can also be used to perform calculations, such as the
+following:</p>
+<pre><code>2+2
+4*20
+5+1/3</code></pre>
+<p>Does the last one seem right?</p>
+<p>What rules does R apply for the order of operations and how do you
+find out?</p>
+<p>Let’s modify the statement above to see if adding parentheses changes
+the result:</p>
+<pre><code>(5+1)/3</code></pre>
+<p>Does it matter if there are spaces added into this?</p>
+<pre><code> ( 5 + 1 ) / 3</code></pre>
+<p>That shows us that the spaces did not matter for the calculation.</p>
+<p>R also has some pre-defined mathematical terms that you can use, such
+as pi.</p>
+<p>What is pi times pi ?</p>
+<pre><code>pi*pi
+
+pi^2 #this does the same thing because ^ is, here, interpreted as &quot;taken to the exponent&quot;</code></pre>
+<p>Other mathematical functions include:</p>
+<pre><code>log(1) 
+sqrt(4)
+exp(1) 
+exp(1)</code></pre>
+<p>
+ 
+</p>
+</div>
+<div id="step-2-creating-objects-and-using-logicals"
+class="section level2">
+<h2>Step 2: Creating objects and using logicals</h2>
+<p>At the heart of almost everything you will do (or ever likely to do)
+in R is the concept that everything in R is an object. Objects are like
+shortcuts. Having the ability to manipulate objects in R makes things
+very handy. Objects are stored in the environment tab (check it out).
+They are a way to store data without having to re-type them. By virtue,
+objects are only created once something has been assigned to them.
+Anything can be stored in an object, including figures, lists!</p>
+<p>Let’s repeat our simple math calculation above, this time using
+objects. If we want to calculate (5+1)/3 using objects, it needs to look
+like this: (a+b)/c The objects a, b, and c do not exist yet, so we need
+to assign values to them in order to create them. R interprets the less
+than symbol and dash as “assign”. So we need to do the following:</p>
+<pre><code>a &lt;- 5 #assign the number 5 to an object called a
+b &lt;- 1 #assign number 1 to object b
+c = 3 # we can also use `=` to assign 3 to c. But `&lt;-` is the preferred assignment operator as `=` is used to call arguments in function calls.</code></pre>
+<p>As you are assigning these numbers to objects, they appear in your
+environment (top right). These objects are not being saved to a hard
+drive, they are stored in memory of your computer only.</p>
+<p><strong>NOTE</strong> if you assign something to an object that
+already exists, R will do what you tell it and overwrite that object
+with the new assignment.</p>
+<p>Now we can execute our calculation using objects instead of numbers.
+Try it!</p>
+<pre><code>(a+b)/c</code></pre>
+<p>Avoid creating object names that start with a number because R will
+look at the first character and try to interpret the entire name as a
+mathematical term. Try this:</p>
+<pre><code>2foxes &lt;- 1 </code></pre>
+<p>The error here tells us that something went wrong and R cannot
+proceed.</p>
+<p>If we want to assign (a+b)/c to a new object called
+<code>answer</code> – what will the object contain? Find out:</p>
+<pre><code>answer &lt;- (a+b)/c</code></pre>
+<p>Take a look at the object <code>answer</code> by typing the name into
+the command line:</p>
+<pre><code>answer</code></pre>
+<p>What would you get if you multiplied answer by 2?</p>
+<pre><code>answer*2</code></pre>
+<p>Let’s now look into other examples about the use of vectors. This is
+going to be important in later data manipulation steps. John, a made-up
+character, recently weighted himself and found the value below.</p>
+<pre><code>john_weight_kg &lt;- 86.18</code></pre>
+<p>Wait. John lives in the US where imperial units are used instead of
+international units. Let’s change that to lb (1kg is equivalent to
+approximately 2.2 lb). How can we transform John’s weight in lb?</p>
+<pre><code>john_weight_lb = 2.2 * john_weight_kg #(weight in pounds is 2.2 times the weight in kg)
+john_weight_lb</code></pre>
+<p>Now,let’s calculate John’s body mass index. Body mass index (BMI) is
+a measure of body fat based on height and weight that applies to adult
+men and women. John is 5’9 feet tall. That equates to 69 in. The formula
+for BMI calculations is weight (lb) / [height (in)]2 x 703.</p>
+<pre><code>BMI = john_weight_lb/(69^2)*703
+BMI</code></pre>
+<p>We can also use logical operations in R. The answer to a logical
+question is always TRUE or FALSE.</p>
+<p>Is <code>a</code> greater than <code>b</code>?</p>
+<pre><code>a &gt; b #You can look at the Values on your right to check the answer.</code></pre>
+<p>Is <code>b</code> greater than 10?</p>
+<pre><code>b &gt; 10</code></pre>
+<p>Is <code>b + c</code> greater than <code>a</code>?</p>
+<pre><code>b + c &gt; a </code></pre>
+<p>R will first evaluate the algebraic operation (<code>+</code>) and
+then evaluate the logical operation (<code>&gt;</code>). So, we don’t
+need to use <code>(b+c) &gt; a</code>.</p>
+<p>Is <code>a</code> equal to 7?</p>
+<pre><code>a = 7 </code></pre>
+<p>Oops! We did not get any answer. What went wrong? Let’s print
+<code>a</code>.</p>
+<pre><code>a   </code></pre>
+<p><code>a = 7</code> changed the value of <code>a</code> to ‘7’. So,
+how do we find if <code>a</code> is equal to ‘7’?</p>
+<pre><code>a == 7 #We need to put two &#39;=&#39; signs to check equality.</code></pre>
+<p>Is <code>a</code> not equal to ‘7’?</p>
+<pre><code>a != 7 </code></pre>
+<p>Are both <code>a</code> and <code>b</code> greater than
+<code>c</code>?</p>
+<pre><code>(a &gt; c) &amp; (b &gt; c) </code></pre>
+<p>Is either <code>a</code> or <code>b</code> greater than
+<code>c</code>?</p>
+<pre><code>(a &gt; c) | (b &gt; c)</code></pre>
+<p>The examples above dealt with numeric values assigned to objects. We
+can also store character data in objects. We need to place the character
+data (words, phrases, etc.) inside quotation marks, otherwise R will try
+to interpret the character data as an object and will produce an
+error.</p>
+<p>Let’s use my name for this exercise. Let’s create two objects, one
+for my first name and another for my last name.</p>
+<pre><code>first.name &lt;- &quot;Vinny&quot;
+last.name &lt;- &#39;Garnica&#39; #Single quotes work too!</code></pre>
+<p>Notice that we have enclosed the string in quotes. If you forget to
+use the quotes you will receive an error message</p>
+<pre><code>first.name &lt;- Vinny</code></pre>
+<p>We now have those two objects. Let’s look at them.</p>
+<pre><code>first.name
+last.name</code></pre>
+<p>Since we each have a first name and a family name, let’s do another
+exercise.</p>
+<p>Exercise 2: Modify the objects <code>first.name</code> and
+<code>last.name</code> so that instead of my name, they contain your
+name.</p>
+<pre><code>first.name &lt;- &quot;____&quot; #Replace ____ with your own name
+last.name &lt;- &quot;____&quot;</code></pre>
+<p>Did this work? Let’s look at the two objects:</p>
+<pre><code>first.name
+Last.name</code></pre>
+<p>Oops! What went wrong? R is case-sensitive, so <code>last.name</code>
+is interpreted differently than <code>Last.name</code>. Let’s try
+again:</p>
+<pre><code>first.name
+last.name #It works!</code></pre>
+<p>Using a function <code>c()</code> we can tell R to <em>combine</em>
+these two objects. This function will combine values from the first
+object with the second object and return them as a single observation.
+Let’s try it:</p>
+<pre><code>c(first.name, last.name)</code></pre>
+<p>What about:</p>
+<pre><code>first.name+last.name</code></pre>
+<p>The error message is essentially telling you that either one or both
+of the objects <code>first.name</code> and <code>last.name</code> are
+not a number and therefore cannot be added together.</p>
+<p>Notice how the names are returned inside quotation marks, which tells
+us that these are interpreted as character data in R. You’ll also notice
+that each name is placed inside quotes and that’s because c() combined
+names into a single vector that contains two elements, your first and
+your last name. This brings us to the next step in our introduction,
+vectors.</p>
+<p>
+ 
+</p>
+</div>
+<div id="step-3-vectors-functions-and-sequences" class="section level2">
+<h2>Step 3: Vectors, functions, and sequences</h2>
+<p>Up to here, the objects we’ve created only contained a single
+element. You can store more than one element in a 1-dimensional object
+of unlimited length. Let’s create an object that is a vector of our
+first and last names using the two objects that we created
+previously.</p>
+<p><em>Avoid re-typing your commands.</em> Since the last command that
+we ran contained what we want, we can simply use the up arrow to access
+the most recently submitted command and modify it. You can also access
+the <em>History</em> tab in the top right panel of RStudio or, at the
+command line, access a list of the most recent commands using the cmd +
+up arrow OR the ctrl + up arrow.</p>
+<pre><code>name &lt;- c(first.name, last.name)</code></pre>
+<p>We can inspect this object by typing <em>name</em> at the command
+line. We can inspect the structure of this object using the function
+<code>str()</code> on name.</p>
+<pre><code>str(name)</code></pre>
+<p>This shows us that this is a vector because the elements in it are
+ordered from 1 to 2 as shown by the [1:2]. This also tells us that this
+list is a <em>character</em> list, which is indicated by the
+<em>chr</em> label. We also see the two elements in this vector, which
+is your first and last name.</p>
+<p>What is the length of your name? We can find out using the function
+<code>length()</code></p>
+<pre><code>length(name)</code></pre>
+<p>Let’s work with another vector. In the code below, you are going to
+created an object called my_vec and assigned it a value using the
+function <code>c()</code>.</p>
+<pre><code>my_vec &lt;- c(1,5) #ask students to come up with 5 numbers </code></pre>
+<p>Again, at this time, you know how to get <code>my_vec</code>.</p>
+<pre><code>my_vec</code></pre>
+<p>Let’s obtain the mean of <code>my_vec</code>? How? Using
+<code>mean()</code> function. We also want to get a measurement of
+dispersion, the variance through <code>var()</code> and the standard
+deviation via <code>sd()</code>.</p>
+<pre><code>mean(my_vec)
+var(my_vec)     
+sd(my_vec)  </code></pre>
+<p>We know that our vector <code>my_vec</code> contains 5 elements. We
+can access that via the length function.</p>
+<pre><code>length(my_vec)</code></pre>
+<p>Let’s quickly see the same example with missing data. In R, missing
+data is usually represented by an <code>NA</code> symbol meaning ‘Not
+Available’. Data may be missing for a whole bunch of reasons, maybe your
+machine broke down, maybe you broke down, maybe the weather was too bad
+to collect data on a particular day etc etc. Missing data can be a pain
+in the proverbial both from an R perspective and also a statistical
+perspective.</p>
+<p>For example, let’s say we collected air temperature readings over 10
+days, but our thermometer broke on day 2 and again on day 9 so we have
+no data for those days</p>
+<pre><code>temp  &lt;- c(7.2, NA, 7.1, 6.9, 6.5, 5.8, 5.8, 5.5, NA, 5.5)
+temp</code></pre>
+<p>We now want to calculate the mean temperature over these days using
+the <code>mean()</code> function</p>
+<pre><code>mean_temp &lt;- mean(temp)
+mean_temp</code></pre>
+<p>Flippin heck, what’s happened here? Why does the <code>mean()</code>
+function return an <code>NA</code>? Actually, R is doing something very
+sensible (at least in our opinion!). If a vector has a missing value
+then the only possible value to return when calculating a mean is
+<code>NA</code>. R doesn’t know that you perhaps want to ignore the
+<code>NA</code> values (R can’t read your mind - yet!). Happily, if we
+look at the help file (use <code>help("mean")</code> - see the next
+section for more details) associated with the <code>mean()</code>
+function we can see there is an argument <code>na.rm = which</code> is
+set to FALSE by default.</p>
+<pre><code>mean_temp &lt;- mean(temp, na.rm = TRUE)
+mean_temp</code></pre>
+<p>Changing gears…. Sometimes it can be useful to create a vector that
+contains a regular sequence of values in steps of one. Here we can make
+use of a shortcut using the <code>:</code> symbol.</p>
+<pre><code>my_seq &lt;- 1:10
+my_seq
+
+my_seq2 &lt;- 10:1
+my_seq2</code></pre>
+<p>Other useful functions for generating vectors of sequences include
+the <code>seq()</code> and <code>rep()</code> functions. For example, to
+generate a sequence from 0 to 20 in steps of 2</p>
+<pre><code>my_seq2 &lt;- seq(from = 0, to = 20, by = 2)
+my_seq2</code></pre>
+<p>The <code>rep()</code> function allows you to replicate (repeat)
+values a specified number of times. To repeat the value 2, 10 times</p>
+<pre><code>my_seq3 &lt;- rep(2, times = 10)
+my_seq3</code></pre>
+<p>Now, let’s work through another handy example. Let’s create three
+objects to represent today’s date in numbers for the month (10), day
+(28), and year (2022).</p>
+<pre><code>month &lt;- 10
+day &lt;- 28
+year &lt;- 2022</code></pre>
+<p>Combine those three objects using the <code>c()</code> function:</p>
+<pre><code>today &lt;- c(month, day, year)</code></pre>
+<p>Inspect this object by typing the name <code>today</code> at the
+command line. Let’s take a look at the structure of today. <em>Obs. why
+knowing <code>str</code> is so important?</em></p>
+<pre><code>str(today)</code></pre>
+<p>You’ll notice that the vector has three elements [1:3] and it
+contains only numeric data.</p>
+<p>Let’s do the same thing using the name October for month and see how
+that changes our vector. Notice that we are not modifying the object
+<em>month</em>, we are simply combining our two existing objects with
+the word “October”.</p>
+<pre><code>c(&quot;October&quot;, day, year) </code></pre>
+<p>In this case we didn’t re-assign the object named <code>today</code>.
+To inspect the structure of this vector, we can wrap the statement
+within the str() function, as shown below. We also want to inspect the
+data class (ie. whether numeric or character) using the function
+<code>class()</code>. Don’t forget to use the up-arrow to access the
+last like that you ran!</p>
+<pre><code>str(c(&quot;October&quot;, day, year)) #this shows us the structure of the object
+class(c(&quot;October&quot;, day, year))</code></pre>
+<p>Notice how R is trying to keep our data organized according to type.
+Rather than coding this vector as containing numbers and characters, it
+has decided that because it can’t call everything in our vector a number
+that it will call everything characters. This process is called
+<em>coercion</em>.</p>
+<p>Let’s say we wanted to create a table that showed every date this
+month:</p>
+<p>We know there are 31 days in the month, so we can modify the object
+day to contain all of the 31 days in this month. You see at in the
+console that this created a sequence of 31 numbers from 1 to 31. Let’s
+go ahead and assign this to the object <code>day</code>.</p>
+<pre><code>day &lt;- 1:31</code></pre>
+<p>For the objects month and year, we don’t need to modify them,
+however, we want to repeat each of them a total of 31 times because we
+need to repeat each, once for each day.</p>
+<p>We can easily repeat the number 10 a total of 31 times using the
+function <code>rep()</code>, specifying how many <code>times</code> we
+should repeat this object. Let’s assign <code>10</code> to
+<code>month</code> and modify the object month to contain 31 copies.</p>
+<pre><code>month &lt;- 10
+month &lt;- rep(month, times = 31)
+month</code></pre>
+<p>Let’s check to make sure that month is correct using the function
+<code>length()</code>:</p>
+<pre><code>length(month)</code></pre>
+<p>There are 31 elements in this vector and we can inspect individual
+elements in the vector based on their ordered position using square
+brackets:</p>
+<pre><code>month[28] #the number inside the brackets corresponds to location of element in list, not value
+day[28] </code></pre>
+<p>In this case, the 28th element in <code>month</code> is 10, and the
+28th element in <code>day</code> is 28 which confirms that we created
+this correctly.</p>
+<p>Type <code>day[32]</code> into your R console. What do you get? What
+does it mean? Ask yourself the question, “Are there any months with 32
+days?”</p>
+<p>We can create the object <code>year</code> to contain 31 repeats of
+2022, however, this time, let’s say we wanted to make sure that this
+object was always the same length as the number of days we have in a
+month. Instead of specifying <code>31</code>, we can simply get that
+information using the <code>length()</code> function. Here, we’ll
+replace <code>31</code> with <code>length(day)</code>, which is
+equivalent.</p>
+<pre><code>year &lt;- rep(2022, times = length(day))
+year
+length(year)</code></pre>
+<p>We now have three vectors to create our table and they are exactly
+the same length:</p>
+<pre><code>length(day)
+length(month)
+length(year)</code></pre>
+<p>
+ 
+</p>
+</div>
+<div id="step-4-data-frames-basic-data-manipulation-and-finding-help"
+class="section level2">
+<h2>Step 4: Data frames, basic data manipulation, and finding help</h2>
+<p>Remember that our goal here is to create a table with the columns
+“month”, “day”, and “year”. First, here’s a quick reminder of what we
+want this to look like:</p>
+<pre><code>   day   month   year
+   1     10       2022
+   2     10       2022
+   3     10       2022
+   ...
+</code></pre>
+<p>In order to create a data frame, we can use the command
+<code>data.frame()</code>. This function will create columns out of
+vectors that are all the same length. In the function, we just have to
+specify name of the column and populate it with vector data.</p>
+<pre><code>October &lt;- data.frame(day = day, month = month, year = year)</code></pre>
+<p>Let’s inspect this new object in the same way as vectors:</p>
+<pre><code>October
+length(October)</code></pre>
+<p>Using the <code>length()</code> function, we see it says 3. This is
+because <code>October</code> has three columns: day, month, and year. A
+data frame is a two-dimensional object which stores its information in
+rows and columns.</p>
+<p>Because this is a 2-dimensional object, we can inspect the dimensions
+using the <code>dim()</code> function:</p>
+<pre><code>dim(October)</code></pre>
+<p>This tells us that we have 31 rows and 3 columns. R also provides the
+<code>nrow()</code> and <code>ncol()</code> functions to make it easier
+to remember which is which:</p>
+<pre><code>nrow(October)
+ncol(October)</code></pre>
+<p>What happens when we use the <code>str()</code> function?</p>
+<pre><code>str(October)</code></pre>
+<p>We can see that it’s listing the columns we have in our table and
+showing us how they are represented. Notice the <code>$</code> to the
+left of each column name, this is how we access the columns of the data
+frame:</p>
+<pre><code>October$day
+October$month
+October$year</code></pre>
+<p>You can see that these are the same as the vectors we created
+earlier.</p>
+<p>Because this object is rather large, we didn’t get to see the top
+rows of the object. A quick way to look at the top of the object is with
+the <code>head()</code> function and if we wanted to look at the bottom,
+we would use <code>tail()</code>.</p>
+<pre><code>head(october) #if this didn&#39;t work, double-check that you spelled the object name correctly</code></pre>
+<p>Now that we have our table, the question becomes, how do we inspect
+different elements?</p>
+<p>Just like we can inspect the 28th element in the <code>day</code>
+vector using <code>day[28]</code>, we can also use the brackets to
+subset a table, the only catch is that we have to use the coordinates of
+the row(s) and the column(s) we want. We can do this by specifying
+<code>[row, column]</code>. These are analagous to X and Y Cartesian
+coordinates. Let’s take a look at the elements in the 28th row,
+separately:</p>
+<pre><code>October[28, 1] #day
+October[28, &quot;month&quot;] #you can use characters when the elements are named!
+October[28, 3] #year
+October[28, -3] #here `-` means all columns except the third (year)
+October[28, -2] #day and year</code></pre>
+<p>If we don’t specify a dimension, R will give us the entire contents
+of that dimension. Let’s look at the row that contains today’s date:</p>
+<pre><code>October[28, ]</code></pre>
+<p>You can also use this to access just one column of the matrix. Let’s
+look at month:</p>
+<pre><code>October[, 2]</code></pre>
+<p>Now that we’ve inspected the object <code>October</code>, let’s
+create the same thing for the month of November. How should we do
+this?</p>
+<p>One option would be to create new objects for day, month, and year
+and combine them just like we did for October. What is the simplest
+method to do this, using the fewest number of steps?</p>
+<p>We can simply make a copy of <code>October</code> and add two vectors
+with information about the 30th and 31st days. Let’s do this step by
+step. Note that November contains 30 days. We can re-do all the
+operations above, making sure that we remove the 31st day of the process
+or copy October and remove the 31st day.</p>
+<pre><code>November &lt;- October
+November &lt;- November[-31,]</code></pre>
+<p>Inspect what we have now:</p>
+<pre><code>str(November) #we have an extra column
+tail(November) #we only have 31 days</code></pre>
+<p>We need to change the month column so that it says 11 instead of 10,
+how can we do this? Let’s just look at the column first:</p>
+<pre><code>November$month</code></pre>
+<p>We need to add 1 to each of these values, so let’s try that!</p>
+<pre><code>November$month + 1</code></pre>
+<p>This worked, so now we just need to replace values in November[,2]
+with the new expression:</p>
+<pre><code>November$month &lt;- November$month + 1  #Did it work?
+str(November)</code></pre>
+<p>Let’s combine both of these tables into an object called ‘Fall’. You
+know what function to use, right?</p>
+<pre><code>Fall &lt;- rbind(October, November)</code></pre>
+<p>Inspect this object to ensure it was made correctly.</p>
+<pre><code>str(Fall)
+head(Fall)
+tail(Fall)</code></pre>
+<p>We now have a new object Fall that contains only numeric data. Let’s
+revise this object so that it uses names for the month instead of
+numbers. We want it to look like this:</p>
+<pre><code>   day   month    year
+   1     October  2022
+   2     October  2022
+   3     October  2022
+   ...
+</code></pre>
+<p>Months need to be changed from the number 10 to “October” and from 11
+to “November” in the second column. Let’s first look at the month
+column.</p>
+<pre><code>Fall$month</code></pre>
+<p>We want to specify only the cells in this list that are 10. We know
+that rows 1 to 31 contain 10’s and the rest contain 11’s, which means we
+can inspect those rows in the object Fall:</p>
+<pre><code>Fall[1:31, &quot;month&quot;]  #October
+Fall[-c(1:31), &quot;month&quot;] #November</code></pre>
+<p>Notice that we used <code>-c(1:31)</code>, what do you think this is
+doing? Why would this give us the values for the month of November?</p>
+<p>We can use the <code>ifelse()</code> function to replace the values
+in our column. How do we use this function? A good first step to
+figuring out how you can use a function is to look at its help page. The
+way you can do that is by typing either
+<code>help("function_name")</code> or <code>?function_name</code>.</p>
+<pre><code>?ifelse</code></pre>
+<p>Exercise 4: Type <code>?ifelse</code> and answer these three
+questions: 1. What does it do? (Description) 2. What are the arguments?
+(Usage/Arguments) 3. What does it return? (Value)</p>
+<p>In order to use <code>ifelse</code>, we will need to provide three
+things:</p>
+<ol style="list-style-type: decimal">
+<li>A logical question about the elements of an object : Fall$month ==
+10</li>
+<li>Values for TRUE elements : “October”</li>
+<li>Values for FALSE elements : “November”</li>
+</ol>
+<pre><code>ifelse(Fall$month == 10, yes = &quot;October&quot;, no = &quot;November&quot;)
+
+Fall$month &lt;- ifelse(Fall$month == 10, yes = &quot;October&quot;, no = &quot;November&quot;)</code></pre>
+<p>Notice that we had to use <code>==</code> to indicate equality. This
+is so that R doesn’t get confused and assume we are using the argument
+assignment, <code>=</code>.</p>
+<p>Now, let’s inspect Fall.</p>
+<pre><code>str(Fall)
+head(Fall)
+tail(Fall)</code></pre>
+<p>Let’s change first letter of every column name to uppercase i.e.,
+replace “day” with “Day” and so on. We can do this using
+<code>colnames()</code> function.</p>
+<pre><code>colnames(Fall) #Current column names
+colnames(Fall) &lt;- c(&quot;Day&quot;, &quot;Month&quot;, &quot;Year&quot;) #New column names</code></pre>
+<p>Let’s inspect Fall again.</p>
+<pre><code>str(Fall)
+head(Fall)</code></pre>
+</div>
+</div>
+<div id="recap" class="section level1">
+<h1>Recap</h1>
+<ul>
+<li>R has many functionalities that make data management more
+enjoyable.</li>
+<li>Mathematical operations: +, -, /, &gt;, |, and the use of ()</li>
+<li>Difference between <code>=</code> and <code>==</code>.</li>
+<li>Mathematical functions:
+<code>log()</code>,<code>sqrt()</code>,<code>exp()</code>, and
+others…</li>
+<li>Functions: <code>print()</code>, <code>str()</code>,
+<code>length()</code>, <code>mean()</code>, <code>var()</code>,
+<code>sd()</code>, <code>rep()</code>, <code>class()</code>,
+<code>data.frame()</code>, <code>head()</code>, <code>tail()</code>,
+<code>dim()</code>, <code>nrow()</code>, <code>ncol()</code>,
+<code>ifelse()</code>, <code>colnames()</code>.</li>
+</ul>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
