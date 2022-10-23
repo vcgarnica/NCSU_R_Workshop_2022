@@ -18,7 +18,7 @@ About
 
 This introduction to R is designed to be a companion to a workshop introducing the basics of R and data manipulation/visualization and simple analysis. Our target audience is graduate level students in the departments of Horticulture, Crop and Soil Sciences, Entomology & Plant Pathology at North Carolina State University who responded a questionnaire sent on Sept 23th.
 
-This workshop is not intended to compete with courses taught at NCSU. Students are encouraged to evaluate NCSU courses that provide introduction and data visualization via R. 
+This workshop is not intended to compete with courses taught at NCSU. Students are encouraged to evaluate and take NCSU courses that provide introduction and data visualization via R. 
 
 
 <p>&nbsp;</p>
@@ -51,7 +51,7 @@ We are providing complete and incomplete R scripts for the workshop, so that you
 
 
 Supporting material
-------------
+--------------------
 This workshop was prepared with material compiled from:
 
 * [APS_IntroR_2020]
@@ -60,6 +60,32 @@ This workshop was prepared with material compiled from:
 * [PsyTeachR]
 * [Data Manipulation using Tidyverse]
 
+
+<p>&nbsp;</p>
+
+
+
+Organization
+--------------------
+
+![Vinicius C. Garnica](https://media-exp1.licdn.com/dms/image/C5603AQHrEgMmpyYgYQ/profile-displayphoto-shrink_200_200/0/1664213123424?e=1672272000&v=beta&t=K3nmzz2XvGeFqO92VRKoTJaIv4jHSd1Cz4se2l4smS0){width=25%} 
+
+PhD Student - Entomology and Plant Pathology Department
+
+Contact: https://cals.ncsu.edu/entomology-and-plant-pathology/people/vcastel/
+
+<p>&nbsp;</p>
+
+
+
+![Danielle Cooney](https://media-exp1.licdn.com/dms/image/C4E03AQHPjfXb7jmQ4Q/profile-displayphoto-shrink_400_400/0/1516855443888?e=1668643200&v=beta&t=db_ccwY9qbcjPJd6b2E8EUlGsKpIe5uNys__5lZhrCE){width=25%}
+
+
+PhD Student - Crop and Soil Sciences Department
+
+Contact:https://cals.ncsu.edu/crop-and-soil-sciences/people/drcooney/
+
+<p>&nbsp;</p>
 
 
 Hope you have a great expeRience!
