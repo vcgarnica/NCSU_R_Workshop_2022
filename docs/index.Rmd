@@ -1,0 +1,71 @@
+---
+title: "Intro"
+---
+
+An introduction to R for graduate students in agricultural sciences at North Carolina State University developed by Vinicius Garnica and Danielle Cooney. 
+
+This repository is intended to serve as an additional resource for short workshops held on the dates below. This workshop is a series of two training sections which students are free to attend what best fits their interest. The source code can be found at https://github.com/vcgarnica/NCSU_R_workshop_2022. 
+
+
+* Introduction to R (Oct 28th at 2-3 pm - Location: Williams Hall 2405)
+* Data manipulation, analysis, and visualization (Nov 11th at 2-4 pm - Location: PSI 3152 & 3158)
+
+
+<p>&nbsp;</p>
+
+About 
+------------
+
+This introduction to R is designed to be a companion to a workshop introducing the basics of R and data manipulation/visualization and simple analysis. Our target audience is graduate level students in the departments of Horticulture, Crop and Soil Sciences, Entomology & Plant Pathology at North Carolina State University who responded a questionnaire sent on Sept 23th.
+
+This workshop is not intended to compete with courses taught at NCSU. Students are encouraged to evaluate NCSU courses that provide introduction and data visualization via R. 
+
+
+<p>&nbsp;</p>
+
+Goals
+------------
+
+By the end of this workshop we hope that participants should be able to:
+
+* Find, download, and load necessary packages in RStudio environment
+* Load tabular data into R
+* Understand the basics of data manipulation and structure in R
+* Know what a data frame, vector, and function are
+* Summarize data
+* Visualize data
+
+
+<p>&nbsp;</p>
+
+
+Workshop Material
+------------------
+
+We are providing complete and incomplete R scripts for the workshop, so that you can easily execute the code in these scripts to follow along. There are also excel files that will be used for the second workshop. You can download files at:
+
+* [Workshop Materials - Part 1].
+* [Workshop Materials - Part 2].
+
+<p>&nbsp;</p>
+
+Supporting material
+------------
+This workshop was prepared with material compiled from:
+
+* [APS_IntroR_2020]
+* [Intro R]
+* [Data wrangling and iteration in R Workshop]
+* [PsyTeachR]
+* [Data Manipulation using Tidyverse]
+
+
+
+Hope you have a great expeRience!
+
+[Workshop Materials - Part 1]: https://github.com/vcgarnica/NCSU_R_workshop_2022/blob/main/data/Part1.rar?raw=true
+[Intro R]: https://intro2r.com/
+[APS_IntroR_2020]: https://github.com/everhartlab/APS_IntroR_2020 
+[Data wrangling and iteration in R Workshop]: https://github.com/leombastos/2021_rworkshop_wrangling
+[PsyTeachR]: https://psyteachr.github.io/
+[Data Manipulation using Tidyverse]: https://shelkariuki.netlify.app/post/passa/

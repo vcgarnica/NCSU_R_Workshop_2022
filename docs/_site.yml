@@ -1,0 +1,23 @@
+name: "NCSU R workshop 2022"
+output_dir: "docs"
+navbar:
+  title: "NCSU R workshop 2022"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Before the workshop"
+      href: about.html
+    - text: "Workshop"
+      menu:
+        - text: "Part 1: Introduction to R"
+          href: Part1-Introduction.html
+        - text: "Part 2: Data manipulation"
+          href: Part2-DataManipulation.html
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+    toc_depth: 2
+    theme: flatly
+  
