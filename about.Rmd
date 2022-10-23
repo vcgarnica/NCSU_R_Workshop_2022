@@ -5,6 +5,8 @@ title: "Before the workshop"
 
 For this workshop, we ask that you come prepared with a laptop that has the most recent versions of [R] and [RStudio] installed, and our [workshop materials] downloaded to your Desktop. 
 
+<p>&nbsp;</p>
+
 **We cannot provide service for installation the day of the workshop.**
 
 

@@ -4,7 +4,7 @@ title: "Intro"
 
 An introduction to R for graduate students in agricultural sciences at North Carolina State University developed by Vinicius Garnica and Danielle Cooney. 
 
-This repository is intended to serve as an additional resource for short workshops held on the dates below. This workshop is a series of two training sections which students are free to attend what best fits their interest. The source code can be found at https://github.com/vcgarnica/NCSU_R_workshop_2022. 
+This repository is intended to serve as an additional resource for short workshops held on the dates below. This workshop is a series of two training sessions which students are free to attend what best fits their interest. The source code can be found at https://github.com/vcgarnica/NCSU_R_workshop_2022. 
 
 
 * Introduction to R (Oct 28th at 2-3 pm - Location: Williams Hall 2405)
@@ -44,8 +44,8 @@ Workshop Material
 
 We are providing complete and incomplete R scripts for the workshop, so that you can easily execute the code in these scripts to follow along. There are also excel files that will be used for the second workshop. You can download files at:
 
-* [Workshop Materials - Part 1].
-* [Workshop Materials - Part 2].
+* [Workshop Materials - Part 1]
+* [Workshop Materials - Part 2]
 
 <p>&nbsp;</p>
 
