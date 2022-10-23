@@ -49,6 +49,7 @@ We are providing complete and incomplete R scripts for the workshop, so that you
 
 <p>&nbsp;</p>
 
+
 Supporting material
 ------------
 This workshop was prepared with material compiled from:
