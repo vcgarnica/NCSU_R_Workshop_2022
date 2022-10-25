@@ -914,4 +914,4 @@ References
 =========================
 APS_IntroR_Workshop - Dr. Sydney E. Everhart, Nikita Gambhir, Dr. Kaitlin Gold, Dr. Lucky Mehra, Dr. Zhian N. Kamvar, and Dr. O. William McClung.
 
-An Introduction to R. Alex Douglas, Deon Roos, Francesca Mancini, Ana Couto & David Lusseau.
+An Introduction to R - Alex Douglas, Deon Roos, Francesca Mancini, Ana Couto & David Lusseau.
