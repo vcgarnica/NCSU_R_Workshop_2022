@@ -42,9 +42,9 @@ By the end of this workshop we hope that participants should be able to:
 Workshop Material
 ------------------
 
-We are providing complete and incomplete R scripts for the workshop, so that you can easily execute the code in these scripts to follow along. **These are .rar files so you may need to download winRaR installed**. There are also excel files that will be used for the second workshop. You can download files at:
+We are providing complete and incomplete R scripts for the workshop, so that you can easily execute the code in these scripts to follow along. **You may need to have winRaR installed to access files**. There are also excel files that will be used for the second workshop. You can download files at:
 
-* [Workshop Materials - Part 1]
+* [Workshop Materials - Part 1] - .rar file
 * [Workshop Materials - Part 2]
 
 <p>&nbsp;</p>

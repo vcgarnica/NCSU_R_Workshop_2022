@@ -909,3 +909,9 @@ Recap
 - Functions: `print()`, `str()`, `length()`, `mean()`, `var()`, `sd()`, `rep()`, 
 `class()`, `data.frame()`, `head()`, `tail()`, `dim()`, `nrow()`, `ncol()`, `ifelse()`, `colnames()`.
 
+
+References
+=========================
+APS_IntroR_Workshop - Dr. Sydney E. Everhart, Nikita Gambhir, Dr. Kaitlin Gold, Dr. Lucky Mehra, Dr. Zhian N. Kamvar, and Dr. O. William McClung.
+
+An Introduction to R. Alex Douglas, Deon Roos, Francesca Mancini, Ana Couto & David Lusseau.
