@@ -93,6 +93,7 @@ Contact: https://cals.ncsu.edu/crop-and-soil-sciences/people/drcooney/
 Hope you have a great expeRience!
 
 [Workshop Materials - Part 1]: https://github.com/vcgarnica/NCSU_R_workshop_2022/blob/main/files/Part1.rar?raw=true
+[Workshop Materials - Part 2]: https://github.com/vcgarnica/NCSU_R_workshop_2022/blob/main/files/Part2.rar?raw=true
 [Intro R]: https://intro2r.com/
 [APS_IntroR_2020]: https://github.com/everhartlab/APS_IntroR_2020 
 [Data wrangling and iteration in R Workshop]: https://github.com/leombastos/2021_rworkshop_wrangling

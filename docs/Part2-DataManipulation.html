@@ -713,7 +713,6 @@ to merge them (think if it would be possible to combine files that do
 not have at least one overlapping id variable…). The function below can
 actually be used to merge columns with multiple criteria, but in this
 situation, PLOT is enough.</p>
-<pre class="r"><code>#left_join(master_stability,Stab_yield,by=&quot;plot&quot;)</code></pre>
 <p>Merging the data sets</p>
 <pre class="r"><code>master_stability = left_join(master_stability,Stab_yield,by=c(&quot;plot&quot;,&quot;trial&quot;))</code></pre>
 </div>
