@@ -11,7 +11,7 @@
 
 
 
-<title>Part 2 - Data Wrangling</title>
+<title>Part 2 - Data Wrangling and Analysis</title>
 
 <script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -357,12 +357,622 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Part 2 - Data Wrangling</h1>
+<h1 class="title toc-ignore">Part 2 - Data Wrangling and Analysis</h1>
 
 </div>
 
 
-<p>In construction…</p>
+<p>In today’s session, we will be covering a few commonly used functions
+from R packages.</p>
+<p>Examples consist of two xlsx files, the first
+<code>wheat_yield.xlsx</code> containing yield data from small research
+plots. In this exercise, we will transforming plot weight in lb per
+125ft2 to kilograms per hectare and bushels per acre. This file contains
+data from two different experiments “Stability” and
+“Fungicide_cultivar”.</p>
+<p>Our goal is to perform transformations that will be later transferred
+to the trial master file (TMF), <code>data_2022.xlsx</code>, which is a
+compilation of documents that prove that the experiment has been
+conducted following regulatory requirements. The TMF should be set up at
+the beginning of a trial. The essential documents that make up the file
+should be kept in a secure but accessible manner. A well-kept TMF can
+help with efficient trial management and can facilitate the
+reconstruction of the conduct of the trial during the audit/inspection
+process. The<code>data_2022.xlsx</code> contains “Stability” and
+“Fungicide_cultivar” tabs, representing each experiment master file.</p>
+<div id="yield-transformations" class="section level1">
+<h1>Yield transformations</h1>
+<p>We begin by loading packages in our R environment. This is a required
+step <strong>every</strong> time you plan on using the package’s
+functions.</p>
+<div id="step-1-installing-and-loading-packages" class="section level2">
+<h2>Step 1: Installing and loading packages</h2>
+<pre class="r"><code>#install.packages(c(&quot;readxl&quot;,&quot;tidyverse&quot;, &quot;janitor&quot;,&quot;readr&quot;,&quot;lubridate&quot;)) 
+
+# Loading packages (everytime you open R)
+library(readxl) # to read excel files
+library(tidyverse) # data manipulation
+library(janitor) # to clean data
+library(readr) # to import csv
+library(lubridate) # functions to work with date-times and time-spans
+library(xlsx) # export xlsx
+library(car) # for variance homogeneity and anova tests
+library(emmeans) # extract the means
+library(viridis) # add some cool colors</code></pre>
+<p>Another way to accomplish the same goal is via <code>pacman</code>
+package.</p>
+<pre class="r"><code>#install.packages(pacman)
+
+#pacman::p_load(readxl, tidyverse, janitor, readr, lubridate, xlsx) </code></pre>
+<p>
+ 
+</p>
+</div>
+<div id="step-2-loading-and-evaluating-data" class="section level2">
+<h2>Step 2: Loading and evaluating data</h2>
+<p>Our goal in this module is to learn a few basic functions,
+including:</p>
+<p><code>getwd()</code> Get working directory. <code>setwd()</code>
+Specify a working directory <code>read_excel()</code> Function of
+<code>readxl</code> package. It reads xls and xlsx files.
+<code>glimpse()</code> Function of <code>dplyr</code> package. Used to
+see the columns of the dataset and display some portion of the data with
+respect to each attribute that can fit on a single line.
+<code>str()</code> Used for compactly displaying the internal structure
+of a R object <code>summary()</code> Computes summary statistics of data
+and model objects</p>
+<p>
+ 
+</p>
+<p>Let’s first see where our working directory is. You may be able to
+change that with <code>setwd()</code> and specify the location you want
+to save your analysis and results.</p>
+<pre class="r"><code>getwd()</code></pre>
+<pre><code>## [1] &quot;C:/Users/Garnica/Documents/GitHub/NCSU_R_workshop_2022&quot;</code></pre>
+<p>Once you have done that, we can now easily access the files for the
+workshop. Once yield data has been read into R, we can take a look at it
+with <code>view()</code>.</p>
+<pre class="r"><code>wheat_yield = read_excel(&quot;files/wheat_yield.xlsx&quot;)
+view(wheat_yield)</code></pre>
+<p>Also can take a glimpse at the data.</p>
+<pre class="r"><code>glimpse(wheat_yield)</code></pre>
+<pre><code>## Rows: 69
+## Columns: 8
+## $ DATE                &lt;dttm&gt; 2022-06-15, 2022-06-15, 2022-06-15, 2022-06-15, 2…
+## $ RANGE               &lt;dbl&gt; 6, 5, 4, 3, 2, 6, 5, 4, 3, 2, 6, 5, 4, 3, 2, 6, 5,…
+## $ ROW                 &lt;dbl&gt; 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5,…
+## $ TRIAL               &lt;chr&gt; &quot;Fungicide_cultivar&quot;, &quot;Fungicide_cultivar&quot;, &quot;Fungi…
+## $ PLOT                &lt;dbl&gt; 101, 102, 103, 104, 105, 201, 202, 203, 204, 205, …
+## $ weight_lb           &lt;dbl&gt; 11.51, 13.86, 11.44, 14.97, 14.29, 12.39, 14.99, 1…
+## $ `moisture_%`        &lt;dbl&gt; 11.9, 12.1, 11.9, 12.0, 11.9, 12.0, 12.1, 11.9, 12…
+## $ `test_weight_lb/bu` &lt;dbl&gt; 36, 5, 8, 19, 46, 30, 48, 18, 15, 31, 7, 24, 55, 4…</code></pre>
+<p>The next two functions are going to be used to clean our variable
+names. First we take a look on the variable names we have with
+<code>names()</code>. Then we use <code>clean_names</code>, a function
+of <code>janitor</code> package to obtain lowercase column names.We also
+are going to create another object, different from what was uploaded, so
+we don’t overwrite our initial data set.</p>
+<pre class="r"><code>names(wheat_yield)</code></pre>
+<pre><code>## [1] &quot;DATE&quot;              &quot;RANGE&quot;             &quot;ROW&quot;              
+## [4] &quot;TRIAL&quot;             &quot;PLOT&quot;              &quot;weight_lb&quot;        
+## [7] &quot;moisture_%&quot;        &quot;test_weight_lb/bu&quot;</code></pre>
+<pre class="r"><code>wheat_yield_1&lt;- clean_names(wheat_yield)</code></pre>
+<p>For some reason that we will explain later, it will be beneficial to
+transform some variables that are numeric to factor. That can be
+accomplished in several ways.</p>
+<pre class="r"><code>wheat_yield_1 = wheat_yield_1 %&gt;%  
+  mutate_at(vars(plot),as.factor) </code></pre>
+<p>What about the data structure? We discussed that in the first
+workshop. <strong>Why is this function important?</strong></p>
+<pre class="r"><code>str(wheat_yield)</code></pre>
+<pre><code>## tibble [69 × 8] (S3: tbl_df/tbl/data.frame)
+##  $ DATE             : POSIXct[1:69], format: &quot;2022-06-15&quot; &quot;2022-06-15&quot; ...
+##  $ RANGE            : num [1:69] 6 5 4 3 2 6 5 4 3 2 ...
+##  $ ROW              : num [1:69] 2 2 2 2 2 3 3 3 3 3 ...
+##  $ TRIAL            : chr [1:69] &quot;Fungicide_cultivar&quot; &quot;Fungicide_cultivar&quot; &quot;Fungicide_cultivar&quot; &quot;Fungicide_cultivar&quot; ...
+##  $ PLOT             : num [1:69] 101 102 103 104 105 201 202 203 204 205 ...
+##  $ weight_lb        : num [1:69] 11.5 13.9 11.4 15 14.3 ...
+##  $ moisture_%       : num [1:69] 11.9 12.1 11.9 12 11.9 12 12.1 11.9 12.1 12.2 ...
+##  $ test_weight_lb/bu: num [1:69] 36 5 8 19 46 30 48 18 15 31 ...</code></pre>
+<pre class="r"><code>str(wheat_yield_1)</code></pre>
+<pre><code>## tibble [69 × 8] (S3: tbl_df/tbl/data.frame)
+##  $ date             : POSIXct[1:69], format: &quot;2022-06-15&quot; &quot;2022-06-15&quot; ...
+##  $ range            : num [1:69] 6 5 4 3 2 6 5 4 3 2 ...
+##  $ row              : num [1:69] 2 2 2 2 2 3 3 3 3 3 ...
+##  $ trial            : chr [1:69] &quot;Fungicide_cultivar&quot; &quot;Fungicide_cultivar&quot; &quot;Fungicide_cultivar&quot; &quot;Fungicide_cultivar&quot; ...
+##  $ plot             : Factor w/ 69 levels &quot;101&quot;,&quot;102&quot;,&quot;103&quot;,..: 1 2 3 4 5 9 10 11 12 13 ...
+##  $ weight_lb        : num [1:69] 11.5 13.9 11.4 15 14.3 ...
+##  $ moisture_percent : num [1:69] 11.9 12.1 11.9 12 11.9 12 12.1 11.9 12.1 12.2 ...
+##  $ test_weight_lb_bu: num [1:69] 36 5 8 19 46 30 48 18 15 31 ...</code></pre>
+<p>Another way to accomplish the same thing is through
+<code>summary()</code>. This function is also used to access results of
+ANOVA, regression, etc…</p>
+<pre class="r"><code>summary(wheat_yield)</code></pre>
+<pre><code>##       DATE                RANGE            ROW           TRIAL          
+##  Min.   :2022-06-15   Min.   :2.000   Min.   : 2.00   Length:69         
+##  1st Qu.:2022-06-15   1st Qu.:3.000   1st Qu.: 5.00   Class :character  
+##  Median :2022-06-15   Median :4.000   Median : 8.00   Mode  :character  
+##  Mean   :2022-06-15   Mean   :4.174   Mean   :13.83                     
+##  3rd Qu.:2022-06-15   3rd Qu.:5.000   3rd Qu.:27.00                     
+##  Max.   :2022-06-15   Max.   :6.000   Max.   :31.00                     
+##       PLOT         weight_lb       moisture_%    test_weight_lb/bu
+##  Min.   :101.0   Min.   : 6.10   Min.   :11.50   Min.   : 0.00    
+##  1st Qu.:302.0   1st Qu.:11.61   1st Qu.:11.90   1st Qu.:16.00    
+##  Median :503.0   Median :12.72   Median :12.00   Median :29.00    
+##  Mean   :504.7   Mean   :12.76   Mean   :12.02   Mean   :28.09    
+##  3rd Qu.:708.0   3rd Qu.:13.90   3rd Qu.:12.10   3rd Qu.:40.00    
+##  Max.   :909.0   Max.   :16.39   Max.   :13.30   Max.   :55.00</code></pre>
+<p>Great, we have loaded packages and the data and used a few common R
+functions!</p>
+<p><img
+src="https://sayingimages.com/wp-content/uploads/2021/01/winner-oh-my-god-meme.jpg" /></p>
+<p>
+ 
+</p>
+</div>
+<div id="step-2-data-wrangling" class="section level2">
+<h2>Step 2: Data wrangling</h2>
+<p>Our goal here is to transform yield from lb/125ft2 to kg/ha or bu/a.
+The next set of functions are used to make that happen.</p>
+<p><code>tidyverse</code> is a collection of R packages
+(<code>dplyr</code>, <code>tidyr</code>, <code>readr</code>,
+<code>purrr</code>, <code>ggplot2</code>, and <code>tibble</code>)
+created by world-famous data scientist Hadley Wickham.</p>
+<p><code>select()</code> Include or exclude certain variables (columns)
+<code>filter()</code> Include or exclude certain observations (rows)
+<code>mutate()</code> Create new variables (columns)
+<code>arrange()</code> Change the order of observations (rows)
+<code>group_by()</code> Organize the observations into groups
+<code>summarise()</code> Derive aggregate variables for groups of
+observations</p>
+<p>After variable names have been cleaned, it is time to transform plot
+weight to bushels per acre or kilos per hectare. But before we start
+coding, we need to think about what steps are needed to get us to the
+desired result. Here are some thoughts:</p>
+<p>We know the weight (lb), moisture (%), and area (125 ft2) of each
+plot. We also know that each plot has a measurement of moisture. As you
+may be familiar at this point, seed moisture is influenced by
+environmental conditions, including soil, cultivar, time of the day of
+harvest, etc. It is common practice to standardize plot weight to a
+value, which (I think) is 13% in soybeans,13.5% in wheat, etc. By
+standardizing all plots to the same moisture level, we will be only
+testing the effect of treatments on yield.</p>
+<p>Here are the steps:</p>
+<ol style="list-style-type: decimal">
+<li>transform plot weight from lbs to kg.</li>
+<li>calculate the dry weight for each plot</li>
+<li>add 13.5% moisture to each plot.</li>
+</ol>
+<p>Adding columns to an existing data set can be accomplished with
+<code>mutate()</code> in the following way. We also create another
+object named <code>wheat_yield_2</code>.</p>
+<pre class="r"><code>wheat_yield_2 = wheat_yield_1 %&gt;% # wait, what&#39;s %&gt;%?
+ mutate(weight_kg = weight_lb*0.453592, # step 1
+ dry_weight = 0.01*(100-moisture_percent), # step 2
+ dry_weight_kg = weight_kg * dry_weight, # step 2
+ weight_13.5_kg = dry_weight_kg/0.865) # step 3</code></pre>
+<p>Now that we have standardized each plot weight to a 13.5% moisture,
+it is time to convert the area from ft2 to hectare or/acre.</p>
+<pre class="r"><code>wheat_yield_2 = wheat_yield_2 %&gt;% 
+ mutate(area_ft2=125,# add a column of 125
+       acre=area_ft2*2.295684113865932e-05, # convert ft2 to acre
+       hec= acre*0.40469445568595708) # convert acre to hectare </code></pre>
+<p>Now the easiest calculations.</p>
+<pre class="r"><code>wheat_yield_2 = wheat_yield_2 %&gt;%
+ mutate(yield_kg_ha = weight_13.5_kg/hec,
+ yield_bu_a = weight_13.5_kg*2.20462262185/60/acre)</code></pre>
+<p>Let’s take a closer look at our yield data now.</p>
+<pre class="r"><code>glimpse(wheat_yield_2)</code></pre>
+<pre><code>## Rows: 69
+## Columns: 17
+## $ date              &lt;dttm&gt; 2022-06-15, 2022-06-15, 2022-06-15, 2022-06-15, 202…
+## $ range             &lt;dbl&gt; 6, 5, 4, 3, 2, 6, 5, 4, 3, 2, 6, 5, 4, 3, 2, 6, 5, 4…
+## $ row               &lt;dbl&gt; 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5…
+## $ trial             &lt;chr&gt; &quot;Fungicide_cultivar&quot;, &quot;Fungicide_cultivar&quot;, &quot;Fungici…
+## $ plot              &lt;fct&gt; 101, 102, 103, 104, 105, 201, 202, 203, 204, 205, 30…
+## $ weight_lb         &lt;dbl&gt; 11.51, 13.86, 11.44, 14.97, 14.29, 12.39, 14.99, 11.…
+## $ moisture_percent  &lt;dbl&gt; 11.9, 12.1, 11.9, 12.0, 11.9, 12.0, 12.1, 11.9, 12.1…
+## $ test_weight_lb_bu &lt;dbl&gt; 36, 5, 8, 19, 46, 30, 48, 18, 15, 31, 7, 24, 55, 49,…
+## $ weight_kg         &lt;dbl&gt; 5.220844, 6.286785, 5.189092, 6.790272, 6.481830, 5.…
+## $ dry_weight        &lt;dbl&gt; 0.881, 0.879, 0.881, 0.880, 0.881, 0.880, 0.879, 0.8…
+## $ dry_weight_kg     &lt;dbl&gt; 4.599563, 5.526084, 4.571590, 5.975440, 5.710492, 4.…
+## $ weight_13.5_kg    &lt;dbl&gt; 5.317414, 6.388537, 5.285076, 6.908023, 6.601725, 5.…
+## $ area_ft2          &lt;dbl&gt; 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 12…
+## $ acre              &lt;dbl&gt; 0.002869605, 0.002869605, 0.002869605, 0.002869605, …
+## $ hec               &lt;dbl&gt; 0.001161313, 0.001161313, 0.001161313, 0.001161313, …
+## $ yield_kg_ha       &lt;dbl&gt; 4578.794, 5501.131, 4550.947, 5948.457, 5684.706, 49…
+## $ yield_bu_a        &lt;dbl&gt; 68.08656, 81.80169, 67.67248, 88.45342, 84.53144, 73…</code></pre>
+<p>Yay! we got it. The only problem is that now we have created a lot of
+auxiliary (no longer needed) columns. Let’s get rid of some them. We
+will accomplish this via <code>select()</code>. This function works in
+two ways: remove or keeping columns from existing data table object.</p>
+<pre class="r"><code># remove undesired columns
+wheat_yield_2 %&gt;%
+select(-weight_lb,-range) # removing two columns</code></pre>
+<pre><code>## # A tibble: 69 × 15
+##    date                  row trial plot  moist…¹ test_…² weigh…³ dry_w…⁴ dry_w…⁵
+##    &lt;dttm&gt;              &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1 2022-06-15 00:00:00     2 Fung… 101      11.9      36    5.22   0.881    4.60
+##  2 2022-06-15 00:00:00     2 Fung… 102      12.1       5    6.29   0.879    5.53
+##  3 2022-06-15 00:00:00     2 Fung… 103      11.9       8    5.19   0.881    4.57
+##  4 2022-06-15 00:00:00     2 Fung… 104      12        19    6.79   0.88     5.98
+##  5 2022-06-15 00:00:00     2 Fung… 105      11.9      46    6.48   0.881    5.71
+##  6 2022-06-15 00:00:00     3 Fung… 201      12        30    5.62   0.88     4.95
+##  7 2022-06-15 00:00:00     3 Fung… 202      12.1      48    6.80   0.879    5.98
+##  8 2022-06-15 00:00:00     3 Fung… 203      11.9      18    5.33   0.881    4.69
+##  9 2022-06-15 00:00:00     3 Fung… 204      12.1      15    6.73   0.879    5.91
+## 10 2022-06-15 00:00:00     3 Fung… 205      12.2      31    7.04   0.878    6.18
+## # … with 59 more rows, 6 more variables: weight_13.5_kg &lt;dbl&gt;, area_ft2 &lt;dbl&gt;,
+## #   acre &lt;dbl&gt;, hec &lt;dbl&gt;, yield_kg_ha &lt;dbl&gt;, yield_bu_a &lt;dbl&gt;, and abbreviated
+## #   variable names ¹​moisture_percent, ²​test_weight_lb_bu, ³​weight_kg,
+## #   ⁴​dry_weight, ⁵​dry_weight_kg</code></pre>
+<pre class="r"><code># or alternatively: select only columns that are needed
+
+wheat_yield_3 = wheat_yield_2 %&gt;%
+select(trial,plot,yield_kg_ha) # selecting 3 columns</code></pre>
+<p>Great! We have a column of standardized plot yields. The next step is
+to add yield variable to the master file for each experiment.</p>
+<p>
+ 
+</p>
+<p>
+ 
+</p>
+</div>
+</div>
+<div id="loading-and-merging-data-to-trial-master-files"
+class="section level1">
+<h1>Loading and merging data to trial master files</h1>
+<p>Now that we have calculated standardized yields, it is time to
+introduce the master file “data_2022.xlsx” that contains detailed
+information about the trial, including treatment number designation,
+blocks, location, etc. We will be merging yield file that we just
+managed with the master file, so that everything is tidy and at one
+place.</p>
+<p>As you see, the file “data_2022.xlsx” contains two sheets(tabs),
+named “Stability” and “Fung_cult”, representing different experiments
+conducted last year.</p>
+<div id="stability-trial" class="section level2">
+<h2>Stability trial</h2>
+<p>We will be working with the “Stability” trial first. Go ahead and
+open the excel file, sheet name “Stability”. This experiment is
+evaluating the stability of cultivars to a foliar disease in wheat. The
+experiment was arranged in a randomized complete block design with two
+repetitions.</p>
+<p>Let’s create a variable, simulating a scenario where a grad student
+measured something, like plant height. In the Excel file, write
+<code>plant_height</code> in the column name and enter random numbers
+until all rows of <code>plant_height</code> have been filled.</p>
+<p><strong>Data simulations can EASILY be done in R, but I decided to do
+this exercise in Excel as an exercise just like you would enter data
+from our experiments</strong>.</p>
+<p>Now, read the datasheet in R.</p>
+<pre class="r"><code>master_stability = read_excel(&quot;files/data_2022.xlsx&quot;,sheet = &quot;Stability&quot;)
+
+master_stability = clean_names(master_stability)
+
+view(master_stability)</code></pre>
+<pre class="r"><code>glimpse(master_stability)</code></pre>
+<pre><code>## Rows: 24
+## Columns: 4
+## $ trial &lt;chr&gt; &quot;Stability&quot;, &quot;Stability&quot;, &quot;Stability&quot;, &quot;Stability&quot;, &quot;Stability&quot;,…
+## $ plot  &lt;dbl&gt; 107, 108, 109, 207, 208, 209, 307, 308, 309, 407, 408, 409, 607,…
+## $ block &lt;chr&gt; &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;B&quot;,…
+## $ trt   &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9…</code></pre>
+<pre class="r"><code>str(master_stability)</code></pre>
+<pre><code>## tibble [24 × 4] (S3: tbl_df/tbl/data.frame)
+##  $ trial: chr [1:24] &quot;Stability&quot; &quot;Stability&quot; &quot;Stability&quot; &quot;Stability&quot; ...
+##  $ plot : num [1:24] 107 108 109 207 208 209 307 308 309 407 ...
+##  $ block: chr [1:24] &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; ...
+##  $ trt  : num [1:24] 1 2 3 4 5 6 7 8 9 10 ...</code></pre>
+<p>Working with R can be trick…. Note that in this file,
+<code>TRT</code> is numeric… What’s the consequence of having a
+treatment that is a factor (e.g. cultivar, fertilizer type, etc) as
+numeric?</p>
+<p>In reality, we need to transform these columns to factor. That can be
+achieved in many ways, but here are some suggestions:</p>
+<pre class="r"><code># One way
+#master_stability$plot = as.factor(master_stability$plot)
+#master_stability$trt = as.factor(master_stability$trt)
+
+# Second way
+#master_stability = master_stability %&gt;% 
+#mutate(plot = as.factor(plot), trt = as.factor(trt)) 
+
+# Third way
+master_stability = master_stability %&gt;% 
+  mutate_at(vars(plot,trt),as.factor) </code></pre>
+<pre class="r"><code>glimpse(master_stability) # check if it worked</code></pre>
+<pre><code>## Rows: 24
+## Columns: 4
+## $ trial &lt;chr&gt; &quot;Stability&quot;, &quot;Stability&quot;, &quot;Stability&quot;, &quot;Stability&quot;, &quot;Stability&quot;,…
+## $ plot  &lt;fct&gt; 107, 108, 109, 207, 208, 209, 307, 308, 309, 407, 408, 409, 607,…
+## $ block &lt;chr&gt; &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;B&quot;,…
+## $ trt   &lt;fct&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9…</code></pre>
+<p>We now have an organized master file with one variable
+<code>plant_height</code>. For storage efficiency, we will add the yield
+data (from previous exercise) to the master file. Beginning with
+“Stability trial”…</p>
+<p>As you may have noticed, <code>wheat_yield_2</code> is a single sheet
+that contains data for two experiments: “Fungicide_cultivar” and
+“Stability”. “master_stability” data set however only contains data for
+one trial, more specifically, “Stability”.</p>
+<p>We are going to subset these two experiments and create new objects
+representing each trial. This is going to be a helpful exercise because
+you likely will need to merge your own data sets at some point in the
+future.</p>
+<pre class="r"><code>Stab_yield = filter(wheat_yield_3,trial==&quot;Stability&quot;) # one way
+
+Stab_yield = wheat_yield_3 %&gt;% 
+filter(trial==&quot;Stability&quot;) # another way
+
+view(Stab_yield)</code></pre>
+<p>The goal is now to merge yield data to the stability analysis.
+Luckily, both data sets have one common column, which makes it possible
+to merge them (think if it would be possible to combine files that do
+not have at least one overlapping id variable…). The function below can
+actually be used to merge columns with multiple criteria, but in this
+situation, PLOT is enough.</p>
+<pre class="r"><code>#left_join(master_stability,Stab_yield,by=&quot;plot&quot;)</code></pre>
+<p>Merging the data sets</p>
+<pre class="r"><code>master_stability = left_join(master_stability,Stab_yield,by=c(&quot;plot&quot;,&quot;trial&quot;))</code></pre>
+</div>
+<div id="fungicide-x-cultivar-trial" class="section level2">
+<h2>Fungicide x cultivar trial</h2>
+<p>Now, it is time to start working with the “Fungicide_cultivar” trial.
+This experiment is looking at how cultivars and fungicides impact
+disease development. The experiment was arranged in a 2-way factorial
+design with a randomized complete block design with three
+repetitions.</p>
+<p>Go ahead and open the excel file, sheet name “Fungicide_cultivar”.
+Perform the steps above.</p>
+<ol style="list-style-type: decimal">
+<li>load data into R with <code>read_excel()</code> function. Make sure
+you select the correct sheet.</li>
+<li>clean names with <code>clean_names()</code> function</li>
+</ol>
+<pre class="r"><code>master_fung_cult = read_excel(&quot;files/data_2022.xlsx&quot;,sheet = &quot;Fungicide_cultivar&quot;)
+
+master_fung_cult = clean_names(master_fung_cult)
+
+view(master_fung_cult)</code></pre>
+<p>Now, just like it was done before, take a look on the data with
+<code>glimpse()</code> function.</p>
+<pre class="r"><code>glimpse(master_fung_cult)</code></pre>
+<pre><code>## Rows: 45
+## Columns: 7
+## $ trial       &lt;chr&gt; &quot;Fungicide_cultivar&quot;, &quot;Fungicide_cultivar&quot;, &quot;Fungicide_cul…
+## $ plot        &lt;dbl&gt; 105, 303, 102, 104, 204, 203, 201, 205, 304, 103, 301, 101…
+## $ block       &lt;chr&gt; &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;…
+## $ trt         &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1, 2, 3…
+## $ fung        &lt;chr&gt; &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;Fi…
+## $ cult        &lt;chr&gt; &quot;Shirley&quot;, &quot;Golden&quot;, &quot;A492&quot;, &quot;Silver&quot;, &quot;James&quot;, &quot;Shirley&quot;,…
+## $ disease_sev &lt;dbl&gt; 0.00000, 11.00000, 7.00000, 0.00000, 13.00000, 11.00000, 8…</code></pre>
+<p>As well as with <code>str()</code>.</p>
+<pre class="r"><code>str(master_fung_cult)</code></pre>
+<pre><code>## tibble [45 × 7] (S3: tbl_df/tbl/data.frame)
+##  $ trial      : chr [1:45] &quot;Fungicide_cultivar&quot; &quot;Fungicide_cultivar&quot; &quot;Fungicide_cultivar&quot; &quot;Fungicide_cultivar&quot; ...
+##  $ plot       : num [1:45] 105 303 102 104 204 203 201 205 304 103 ...
+##  $ block      : chr [1:45] &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; ...
+##  $ trt        : num [1:45] 1 2 3 4 5 6 7 8 9 10 ...
+##  $ fung       : chr [1:45] &quot;Control&quot; &quot;Control&quot; &quot;Control&quot; &quot;Control&quot; ...
+##  $ cult       : chr [1:45] &quot;Shirley&quot; &quot;Golden&quot; &quot;A492&quot; &quot;Silver&quot; ...
+##  $ disease_sev: num [1:45] 0 11 7 0 13 11 8 13 8 10 ...</code></pre>
+<p>Similarly to what was done before, let’s transform the variables
+<code>plot</code> and <code>trt</code> from numeric to factor. You may
+select any of the ways discussed above.</p>
+<pre class="r"><code># Third way
+master_fung_cult = master_fung_cult %&gt;% 
+  mutate_at(vars(plot,trt),as.factor) </code></pre>
+<p>Let’s also create another singular data frame for the
+“Fungicide_cultivar” experiment.</p>
+<pre class="r"><code>fung_cult_yield = wheat_yield_3 %&gt;%  
+  filter(trial==&quot;Fungicide_cultivar&quot;) # another way</code></pre>
+<p>We also will be addind the yield variable to the master file. All the
+steps are done as before.</p>
+<p>Go ahead and merge yield and master file data sets with
+<code>left_join()</code>.</p>
+<pre class="r"><code>master_fung_cult = 
+  left_join(master_fung_cult,wheat_yield_3,by=c(&quot;plot&quot;,&quot;trial&quot;))</code></pre>
+<p>Cool. we are all set!</p>
+<p>
+ 
+</p>
+</div>
+</div>
+<div id="exporting-files-as-a-xlsx-format" class="section level1">
+<h1>Exporting files as a xlsx format</h1>
+<p>Now that we have created individual data frames for each trial and
+correctly collated the yield variable to the trial master files, it is
+time to export these files out of R and into your computer. This is
+important because your adviser may ask you to turn all your data as a
+xlsx/csv file.</p>
+<p>This can be easily achieved with the function
+<code>write.xlsx()</code>. Note that for this exercicie, we could either
+create separate trial master files for each trial or create a single
+trial master file and annotate the individual trials as sheets within
+the single file. But now, I would like you to save the trial master file
+in your desktop.</p>
+<p>That’s what we are going to do:</p>
+<pre class="r"><code>#write.xlsx(master_fung_cult,&#39;c:/Users/Garnica/Desktop/trial_master_2022.xlsx&#39;, sheetName=&quot;fung_cult&quot;) # note that we changed the directory
+
+#write.xlsx(master_stability,&#39;c:/Users/Garnica/Desktop/trial_master_2022.xlsx&#39;, sheetName=&quot;stability&quot;, append = TRUE) # appending</code></pre>
+<p>
+ 
+</p>
+</div>
+<div id="analyzing-data" class="section level1">
+<h1>Analyzing data</h1>
+<p>Before use a two-way ANOVA your data should meet certain
+assumptions.Two-way ANOVA makes all of the normal assumptions of a
+parametric test of difference:</p>
+<ol style="list-style-type: decimal">
+<li>Homogeneity of variance (a.k.a. homoscedasticity)</li>
+<li>Independence of observations</li>
+<li>Normally-distributed dependent variable</li>
+</ol>
+<div id="step-1-homogeneity-of-variance-a.k.a.-homoscedasticity"
+class="section level2">
+<h2>Step 1: Homogeneity of variance (a.k.a. homoscedasticity)</h2>
+<p>Check the homogeneity of variances with Levene’s test. The
+<code>leveneTest()</code> method [from the car package] will be
+used:</p>
+<pre class="r"><code>leveneTest(yield_kg_ha ~fung*cult,data=master_fung_cult)</code></pre>
+<pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = median)
+##       Df F value Pr(&gt;F)
+## group 14  0.5524 0.8798
+##       30</code></pre>
+<p>The p-value is not less than the significance level of 0.05, as seen
+in the output above. This indicates that there is no indication that the
+variance across groups is statistically significant.</p>
+</div>
+<div id="step-2-fitting-the-model" class="section level2">
+<h2>Step 2: Fitting the model</h2>
+<p>The linear model for this study is : <span class="math inline">\(Y=
+block + cultivar + fungicide + cultivar:fungicide + error\)</span></p>
+<pre class="r"><code>two.way &lt;- aov(yield_kg_ha ~ block + fung*cult, data = master_fung_cult)</code></pre>
+<p>That’s great. Before we look into the results, let’s check some of
+the assumptions.</p>
+</div>
+<div id="step-3-normally-distributed-errors" class="section level2">
+<h2>Step 3: Normally distributed errors</h2>
+<pre class="r"><code>plot(two.way, 1)</code></pre>
+<p><img src="Part2-DataManipulation_files/figure-html/Anova-1.png" width="672" /></p>
+<pre class="r"><code>aov_residuals &lt;- residuals(object = two.way)
+shapiro.test(x = aov_residuals )</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  aov_residuals
+## W = 0.97425, p-value = 0.4086</code></pre>
+<p>The Shapiro-Wilk test on the ANOVA residuals (W = 0.97, p = 0.4086),
+which finds no evidence of normality violation, supports the previous
+conclusion.</p>
+</div>
+<div id="step-4-hypothesis-testing" class="section level2">
+<h2>Step 4: Hypothesis testing</h2>
+<p>Our hypothesis is that cultivars, fungicides, and their interaction
+have no effect on wheat yield. In other words:</p>
+<p><strong>Hypothesis testing for cultivars</strong> <span
+class="math display">\[H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4 = \mu_5
+\]</span> <span class="math display">\[H_1: \text{at least one cultivar
+effect is different.}\]</span></p>
+<p><strong>Hypothesis testing for fungicides</strong></p>
+<p><span class="math display">\[H_0: \mu_1 = \mu_2 = \mu_3 \]</span>
+<span class="math display">\[H_1: \text{at least one fungicide effect is
+different.}\]</span></p>
+<p><strong>Hypothesis testing for the interaction between cultivars and
+fungicides</strong> <span class="math display">\[H_0: \mu_{11} =
+\mu_{21} = \mu_{31} = \mu_{41} = \mu_{51} \mu_{12} = \mu_{22} = \mu_{32}
+= \mu_{42} = \mu_{52} \mu_{13} = \mu_{23} = \mu_{33} = \mu_{43} =
+\mu_{53}\]</span> <span class="math display">\[H_1: \text{at least one
+combination of cultivar and fungicide is different.}\]</span></p>
+<p>We will be analyzing one of the experiments using ANOVA. ANOVA, which
+stands for Analysis of Variance, is a statistical test used to analyze
+the difference between the means of more than two groups. A one-way
+ANOVA uses one independent variable, while a two-way ANOVA uses two
+independent variables.</p>
+<pre class="r"><code>Anova(two.way,type=&quot;III&quot;)</code></pre>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: yield_kg_ha
+##               Sum Sq Df  F value    Pr(&gt;F)    
+## (Intercept) 92801164  1 238.0261 3.223e-15 ***
+## block         220929  2   0.2833    0.7554    
+## fung         1537238  2   1.9714    0.1581    
+## cult          552638  4   0.3544    0.8388    
+## fung:cult    2340803  8   0.7505    0.6475    
+## Residuals   10916585 28                       
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>summary(two.way)</code></pre>
+<pre><code>##             Df   Sum Sq Mean Sq F value Pr(&gt;F)
+## block        2   220929  110464   0.283  0.755
+## fung         2  1510258  755129   1.937  0.163
+## cult         4   246165   61541   0.158  0.958
+## fung:cult    8  2340803  292600   0.750  0.648
+## Residuals   28 10916585  389878</code></pre>
+<ul>
+<li><code>Df</code> shows the degrees of freedom for each variable
+(number of levels in the variable minus 1). <strong>Except for the the
+error</strong></li>
+<li><code>Sum sq</code> is the sum of squares (a.k.a. the variation
+between the group means created by the levels of the independent
+variable and the overall mean).</li>
+<li><code>Mean sq</code> shows the mean sum of squares (the sum of
+squares divided by the degrees of freedom).</li>
+<li><code>F value</code> is the test statistic from the F-test (the mean
+square of the variable divided by the mean square of each
+parameter).</li>
+<li><code>Pr(&gt;F)</code> is the p-value of the F statistic, and shows
+how likely it is that the F-value calculated from the F-test would have
+occurred if the null hypothesis of no difference was true.</li>
+</ul>
+<p>From this output we can see that neither cultivar or fungicide type
+have an significant effect on crop yield.</p>
+</div>
+<div id="step-5-compute-summary-statistics" class="section level2">
+<h2>Step 5: Compute summary statistics</h2>
+<p>This step we obtain the means for each factor and their
+interaction.</p>
+<pre class="r"><code># Means for cultivars
+emmeans(two.way, ~ cult)</code></pre>
+<pre><code>## NOTE: Results may be misleading due to involvement in interactions</code></pre>
+<pre><code>##  cult    emmean  SE df lower.CL upper.CL
+##  A492      5413 208 28     4987     5840
+##  Golden    5351 208 28     4925     5777
+##  James     5388 208 28     4962     5814
+##  Shirley   5551 208 28     5125     5978
+##  Silver    5352 208 28     4926     5778
+## 
+## Results are averaged over the levels of: block, fung 
+## Confidence level used: 0.95</code></pre>
+<pre class="r"><code># Means for fungicides
+emmeans(two.way, ~ fung)</code></pre>
+<pre><code>## NOTE: Results may be misleading due to involvement in interactions</code></pre>
+<pre><code>##  fung    emmean  SE df lower.CL upper.CL
+##  Bravo     5611 161 28     5281     5942
+##  Control   5453 161 28     5123     5783
+##  Fierce    5169 161 28     4838     5499
+## 
+## Results are averaged over the levels of: block, cult 
+## Confidence level used: 0.95</code></pre>
+<pre class="r"><code># Means for interaction
+emmeans(two.way, ~ fung*cult)</code></pre>
+<pre><code>##  fung    cult    emmean  SE df lower.CL upper.CL
+##  Bravo   A492      5955 360 28     5217     6694
+##  Control A492      4953 360 28     4214     5691
+##  Fierce  A492      5332 360 28     4594     6071
+##  Bravo   Golden    5542 360 28     4804     6281
+##  Control Golden    5604 360 28     4866     6343
+##  Fierce  Golden    4906 360 28     4168     5645
+##  Bravo   James     5647 360 28     4908     6385
+##  Control James     5372 360 28     4634     6110
+##  Fierce  James     5145 360 28     4407     5883
+##  Bravo   Shirley   5379 360 28     4641     6117
+##  Control Shirley   5735 360 28     4996     6473
+##  Fierce  Shirley   5540 360 28     4802     6279
+##  Bravo   Silver    5534 360 28     4795     6272
+##  Control Silver    5603 360 28     4864     6341
+##  Fierce  Silver    4920 360 28     4181     5658
+## 
+## Results are averaged over the levels of: block 
+## Confidence level used: 0.95</code></pre>
+</div>
+<div id="step-6-plotting-results" class="section level2">
+<h2>Step 6: Plotting results</h2>
+<p>To wrap up our workshop, we will produce a plot of the cultivars and
+fungicides on wheat yield.</p>
+<pre class="r"><code>ggplot(master_fung_cult,aes(x=fung,y=yield_kg_ha,fill=fung))+
+  geom_boxplot()+
+  facet_wrap(~cult)+
+  scale_fill_viridis_d() +
+  theme_bw()+
+  labs(x = &#39;Fungicide product&#39;, y=&quot;Yield (kg/ha)&quot;, title= &#39;Effect of fungicides on wheat yield by cultivar in North Carolina in 2022&#39;)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) </code></pre>
+<p><img src="Part2-DataManipulation_files/figure-html/ggplot-1.png" width="672" /></p>
+</div>
+</div>
 
 
 
